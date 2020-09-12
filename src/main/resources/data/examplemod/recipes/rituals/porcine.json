@@ -1,0 +1,33 @@
+{
+	"type": "mana-and-artifice:ritual",
+	"tier": 3,
+	"pattern":
+	[
+		[ 0, 0, 0, 0, 0 ],
+		[-1, 2, 3, 4,-1 ],
+		[ 1, 0,-1, 0, 5 ],
+		[-1, 8, 7, 6,-1 ],
+		[ 0, 0, 0, 0, 0 ]
+	],
+	"reagents":
+	[
+		"     ",
+		"  P  ",
+		"P   P",
+		"  P  ",
+		"     "	
+	],
+	"keys":
+	{
+		"P": 
+		{ 
+			"item": "minecraft:porkchop",
+			"optional": false,
+			"consume": true
+		}		
+	},
+	"parameters":
+	{
+		"beamColor": "0x48e022"
+	}
+}
