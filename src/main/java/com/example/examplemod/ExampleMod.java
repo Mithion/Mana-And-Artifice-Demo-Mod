@@ -1,34 +1,41 @@
 package com.example.examplemod;
 
-import net.minecraft.block.Block;
-import net.minecraft.util.ResourceLocation;
+import java.util.HashMap;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.mna.api.guidebook.RegisterGuidebooksEvent;
+import com.mna.api.rituals.RitualEffect;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.ma.api.guidebook.RegisterGuidebooksEvent;
-import com.ma.api.rituals.RitualEffect;
-
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod("examplemod")
+@Mod(BuildConfig.MODID)
 public class ExampleMod
 {
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
+    private static final HashMap<String, ResourceLocation> resourceCache = new HashMap<>();
 
-    public ExampleMod() {    	
+    public ExampleMod() {
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
     }
-    
+
     @SubscribeEvent
     public void onRegisterGuidebooks(RegisterGuidebooksEvent event) {
-    	event.getRegistry().AddGuidebook(new ResourceLocation("examplemod", "guide/guidebook_en_us.json"));
+        LOGGER.warn("Register guidebook");
+        ResourceLocation guidebook_rl = asResource("guide");
+        event.getRegistry().addGuidebookPath(guidebook_rl);
     }
 
     // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
@@ -40,10 +47,16 @@ public class ExampleMod
             // register a new block here
             LOGGER.info("HELLO from Register Block");
         }
-        
+
         @SubscribeEvent
         public static void onRitualsRegistry(final RegistryEvent.Register<RitualEffect> event) {
-            event.getRegistry().register(new RitualEffectPorcine(new ResourceLocation("examplemod", "rituals/porcine")).setRegistryName(new ResourceLocation("examplemod", "porcine-ritual-effect")));           
+            ResourceLocation ritual_rl = asResource("rituals/porcine");
+            ResourceLocation name_rl = asResource("porcine-ritual-effect");
+            event.getRegistry().register(new RitualEffectPorcine(ritual_rl).setRegistryName(name_rl));
         }
-    }    
+    }
+
+    public static ResourceLocation asResource(String pPath){
+		return resourceCache.computeIfAbsent(pPath, k -> new ResourceLocation(BuildConfig.MODID, k));
+	}
 }

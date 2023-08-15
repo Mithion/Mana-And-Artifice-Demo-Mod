@@ -1,66 +1,75 @@
 buildscript {
     repositories {
-        maven { url = 'https://files.minecraftforge.net/maven' }
-        jcenter()
         mavenCentral()
+        maven { url = 'https://maven.parchmentmc.org' }
+        maven { url = 'https://files.minecraftforge.net/maven' }
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+        classpath 'org.parchmentmc:librarian:1.+'
     }
 }
+
+plugins {
+    id 'com.github.gmazzo.buildconfig' version '3.0.1'
+}
+
 apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'org.parchmentmc.librarian.forgegradle'
+apply from: 'https://raw.githubusercontent.com/LordGrimmauld/gitinfo-collect/master/build.gradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
-apply plugin: 'eclipse'
-apply plugin: 'maven-publish'
+// apply plugin: 'eclipse'
+// apply plugin: 'idea'
 
-version = '1.0'
-group = 'com.yourname.modid' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'modid'
+// Modify these variables in gradle.properties
+group = "${groupbase}.${modid}"
+version = "${minecraft_version}-${mod_version}"
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+java {
+    archivesBaseName = modid
+    toolchain.languageVersion = JavaLanguageVersion.of(17)
+}
 
-println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
+println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') +
+    '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
+println("Building ${group} version ${project.version}")
+
 minecraft {
-    // The mappings can be changed at any time, and must be in the following format.
-    // snapshot_YYYYMMDD   Snapshot are built nightly.
-    // stable_#            Stables are built at the discretion of the MCP team.
-    // Use non-default mappings at your own risk. they may not always work.
-    // Simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: 'snapshot', version: '20200514-1.16'
-    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
-    
-    // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+    // Mappings (official or parchment) is a matter of preference. Parchment does map some method parameters though
+    // while keeping Class-/Method-/Fieldnames same as official.
+    // mappings channel: "official", version: "${minecraft_version}"
+    // https://ldtteam.jfrog.io/ui/native/parchmentmc-public/org/parchmentmc/data/parchment-1.18.2/
 
-    // Default run configurations.
-    // These can be tweaked, removed, or duplicated as needed.
+    mappings channel: 'parchment', version: "${parchment_version}-${minecraft_version}"
+
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+
     runs {
         client {
             workingDirectory project.file('run')
-
-            // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-
-            // Recommended logging level for the console
-            property 'forge.logging.console.level', 'debug'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
+            args '--debug', '--stacktrace', '--scan'
+            property 'forge.logging.markers', "${forge_logging_markers}"
+            property 'forge.logging.console.level', "${forge_logging_console_level}"
 
             mods {
-                examplemod {
+                "${modid}" {
                     source sourceSets.main
                 }
             }
         }
 
         server {
-            workingDirectory project.file('run')
-
-            // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-
-            // Recommended logging level for the console
-            property 'forge.logging.console.level', 'debug'
+            workingDirectory project.file('server')
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            args '--debug', '--stacktrace', '--scan'
+            property 'forge.logging.markers', "${forge_logging_markers}"
+            property 'forge.logging.console.level', "${forge_logging_console_level}"
 
             mods {
-                examplemod {
+                "${modid}" {
                     source sourceSets.main
                 }
             }
@@ -68,17 +77,16 @@ minecraft {
 
         data {
             workingDirectory project.file('run')
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            property 'forge.logging.markers', "${forge_logging_markers}"
+            property 'forge.logging.console.level', "${forge_logging_console_level}"
 
-            // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-
-            // Recommended logging level for the console
-            property 'forge.logging.console.level', 'debug'
-
-            args '--mod', 'examplemod', '--all', '--output', file('src/generated/resources/')
+            args '--mod', modid, '--all', '--output', file('src/generated/resources/'), '--existing',
+                file('src/main/resources/')
 
             mods {
-                examplemod {
+                "${modid}" {
                     source sourceSets.main
                 }
             }
@@ -86,18 +94,50 @@ minecraft {
     }
 }
 
+configurations {
+    library
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
 repositories {
     flatDir {
         dirs 'libs'
     }
-     maven { url 'https://maven.theillusivec4.top/' } 
+    maven {
+        url 'https://maven.theillusivec4.top/'
+    }
+    maven {
+        url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+    }
+}
+
+def libs_dir = new File("libs")
+if (!libs_dir.exists()){
+    libs_dir.mkdir()
+}
+
+def mna_api_jar = new File("libs/mna-${mna_api_version}-api.jar")
+println("Checking for ${mna_api_jar.name}")
+if (!mna_api_jar.exists()) {
+    println("Downloading ${mna_api_jar.name}")
+    def url = new URL("https://manaandartifice.com/releases/api/mna_${mna_api_version}_api.jar")
+    url.withInputStream{ i -> mna_api_jar.withOutputStream{ it << i }}
+}
+
+def mna_jar = new File("libs/mna-${mna_version}.jar")
+println("Checking for ${mna_jar.name}")
+if (!mna_jar.exists()) {
+    println("Downloading ${mna_jar.name}")
+    def url = new URL("https://manaandartifice.com/releases/mna-${mna_version}.jar")
+    url.withInputStream{ i -> mna_jar.withOutputStream{ it << i }}
 }
 
 dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.16.2-33.0.61'
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
@@ -116,44 +156,51 @@ dependencies {
     // For more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
-    compileOnly files('blank:mana-and-artifice-1.0.7.1:api') //api, compilation only
-    runtimeOnly fg.deobf('blank:mana-and-artifice:1.0.7.1') //mod itself, deobf for runtime
-    
-    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.16.2-4.0.0.1")
-    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.16.2-4.0.0.1:api")    
+    compileOnly "blank:mna:${mna_api_version}:api" //api, compilation only
+    runtimeOnly fg.deobf("blank:mna:${mna_version}") //mod itself, deobf for runtime
+
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${minecraft_version}-${curios_version}")
+    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${minecraft_version}-${curios_version}:api")
+
+    implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.18:3.0.57')
 
 }
+
+compileJava.options.encoding = 'UTF-8'
 
 // Example for how to get properties into the manifest for reading by the runtime..
 jar {
     manifest {
         attributes([
-            "Specification-Title": "examplemod",
-            "Specification-Vendor": "examplemodsareus",
-            "Specification-Version": "1", // We are version 1 of ourselves
-            "Implementation-Title": project.name,
-            "Implementation-Version": "${version}",
-            "Implementation-Vendor" :"examplemodsareus",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+                'Specification-Title'     : modid,
+                'Specification-Vendor'    : author,
+                'Specification-Version'   : '1', // We are version 1 of ourselves
+                'Implementation-Title'    : project.name,
+                'Implementation-Version'  : project.version,
+                'Implementation-Vendor'   : author,
+                'Implementation-Timestamp': new Date().format('yyyy-MM-dd\'T\'HH:mm:ssZ'),
+                'MixinConfigs'            : "${modid}.mixins.json"
         ])
     }
+    archiveClassifier.set('slim')
 }
 
-// Example configuration to allow publishing using the maven-publish task
-// This is the preferred method to reobfuscate your jar file
-jar.finalizedBy('reobfJar') 
-// However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing
-//publish.dependsOn('reobfJar')
+def reobfFile = file("$buildDir/reobfJar/output.jar")
+def reobfArtifact = artifacts.add('default', reobfFile) {
+    type 'jar'
+    builtBy 'reobfJar'
+}
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifact jar
-        }
-    }
-    repositories {
-        maven {
-            url "file:///${project.projectDir}/mcmodsrepo"
-        }
-    }
+jar.finalizedBy('reobfJar')
+
+// This will create a file in generated/source/buildConfig/main/main/<group as dirs>/BuildConfig.java
+// You can import this using `import <group>.BuildConfig` and reference these fields from java
+buildConfig {
+    buildConfigField 'String', 'MODID', "\"${modid}\""
+    buildConfigField 'String', 'VERSION', "\"${project.version}\""
+    buildConfigField 'String', 'DISPLAY_NAME', "\"${display_name}\""
+    buildConfigField 'String', 'GITHASH', "\"${getGitInfo()}\""
+
+    version = project.version
+    packageName = project.group
 }

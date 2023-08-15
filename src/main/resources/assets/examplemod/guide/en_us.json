@@ -1,0 +1,29 @@
+{
+	"Porcine": {
+		"index": 0,
+		"category": "rituals",
+		"sections": [
+			{
+				"type": "title",
+				"value": "Ritual of Porcine"
+			},
+			{
+				"type": "text",
+				"value": "",
+				"json": [
+					{
+						"text": "This ritual will spawn a pig.\n\nOink oink.",
+						"color": ""
+					}
+				]
+			}
+		],
+		"related_recipes": [
+			{
+				"type": "ritual",
+				"location": "examplemod:rituals/porcine"
+			}
+		]
+	},
+	"version": "1.0.0a"
+}

@@ -1,7 +1,15 @@
 {
-	"type": "mana-and-artifice:ritual",
-	"tier": 3,
+	"type": "mna:ritual",
+	"tier": 1,
 	"pattern":
+	[
+		[ 0, 0, 0, 0, 0 ],
+		[-1, 2, 3, 4,-1 ],
+		[ 1, 0,-1, 0, 5 ],
+		[-1, 8, 7, 6,-1 ],
+		[ 0, 0, 0, 0, 0 ]
+	],
+	"displayPattern":
 	[
 		[ 0, 0, 0, 0, 0 ],
 		[-1, 2, 3, 4,-1 ],
@@ -15,19 +23,27 @@
 		"  P  ",
 		"P   P",
 		"  P  ",
-		"     "	
+		"     "
+	],
+	"manaweave":
+	[
+		"mna:triangle"
 	],
 	"keys":
 	{
-		"P": 
-		{ 
+		"P":
+		{
 			"item": "minecraft:porkchop",
 			"optional": false,
 			"consume": true
-		}		
+		}
 	},
 	"parameters":
 	{
+		"innerColor": "0xffffff",
+		"outerColor": "0x2fb4e0",
+		"displayIndexes": false,
+		"connectBeam": true,
 		"beamColor": "0x48e022"
 	}
 }
