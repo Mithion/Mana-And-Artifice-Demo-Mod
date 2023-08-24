@@ -1,7 +1,7 @@
 package com.example.examplemod;
 
-import net.minecraft.block.Block;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -11,9 +11,8 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.ma.api.guidebook.RegisterGuidebooksEvent;
-import com.ma.api.rituals.RitualEffect;
-
+import com.mna.api.guidebook.RegisterGuidebooksEvent;
+import com.mna.api.rituals.RitualEffect;
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("examplemod")
 public class ExampleMod
@@ -27,8 +26,8 @@ public class ExampleMod
     }
     
     @SubscribeEvent
-    public void onRegisterGuidebooks(RegisterGuidebooksEvent event) {
-    	event.getRegistry().AddGuidebook(new ResourceLocation("examplemod", "guide/guidebook_en_us.json"));
+    public void onRegisterGuidebooks(RegisterGuidebooksEvent event) {    	
+    	event.getRegistry().addGuidebookPath(new ResourceLocation("examplemod", "guide"));
     }
 
     // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
