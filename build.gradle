@@ -101,8 +101,8 @@ configurations {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
-    flatDir {
-        dirs 'libs'
+    maven {
+        url 'https://maven.manaandartifice.com/releases/'
     }
     maven {
         url 'https://maven.theillusivec4.top/'
@@ -110,27 +110,6 @@ repositories {
     maven {
         url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
     }
-}
-
-def libs_dir = new File("libs")
-if (!libs_dir.exists()){
-    libs_dir.mkdir()
-}
-
-def mna_api_jar = new File("libs/mna-${mna_api_version}-api.jar")
-println("Checking for ${mna_api_jar.name}")
-if (!mna_api_jar.exists()) {
-    println("Downloading ${mna_api_jar.name}")
-    def url = new URL("https://manaandartifice.com/releases/api/mna_${mna_api_version}_api.jar")
-    url.withInputStream{ i -> mna_api_jar.withOutputStream{ it << i }}
-}
-
-def mna_jar = new File("libs/mna-${mna_version}.jar")
-println("Checking for ${mna_jar.name}")
-if (!mna_jar.exists()) {
-    println("Downloading ${mna_jar.name}")
-    def url = new URL("https://manaandartifice.com/releases/mna-${mna_version}.jar")
-    url.withInputStream{ i -> mna_jar.withOutputStream{ it << i }}
 }
 
 dependencies {
@@ -156,8 +135,10 @@ dependencies {
     // For more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
-    compileOnly "blank:mna:${mna_api_version}:api" //api, compilation only
-    runtimeOnly fg.deobf("blank:mna:${mna_version}") //mod itself, deobf for runtime
+    // compileOnly "com.mithion:mna:${mna_api_version}:api" //api, compilation only
+    compileOnly "com.mithion:mna:${mna_version}:api" //api, compilation only
+    runtimeOnly fg.deobf("com.mithion:mna:${mna_version}") //mod itself, deobf for runtime
+
 
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${minecraft_version}-${curios_version}")
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${minecraft_version}-${curios_version}:api")

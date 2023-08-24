@@ -8,10 +8,7 @@ import org.apache.logging.log4j.Logger;
 import com.mna.api.guidebook.RegisterGuidebooksEvent;
 import com.mna.api.rituals.RitualEffect;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.Resource;
-import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
