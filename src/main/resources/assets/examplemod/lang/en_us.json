@@ -1,0 +1,9 @@
+{
+	"examplemod:pork_warrior": "Pork Warrior",
+	"examplemod:pork_warrior.desc.delay": "A delay in seconds before applying this component.",
+	"examplemod:pork_warrior.desc.duration": "How long the pork warrior will last.",
+	
+	"examplemod:pork_pulse": "Pork Pulse",
+	"examplemod:pork_pulse.desc.delay": "A delay in seconds before applying this component.",
+	"examplemod:pork_pulse.desc.radius": "How large the pulse is to target dropped pork chops."
+}

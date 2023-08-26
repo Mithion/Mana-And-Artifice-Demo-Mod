@@ -18,5 +18,45 @@
 				"location": "examplemod:rituals/porcine"
 			}
 		]
-	}
+	},
+	"Shape: Pork Pulse": {
+		"index": 2,
+		"category": "sorcery",
+		"sections": [
+			{
+				"type": "title",
+				"value": "Shape: Pork Pulse"
+			},
+			{
+				"type": "text",
+				"value": "This shape will emit a pulse and target all dropped pork chops within the radius of the caster."
+			}
+		],
+		"related_recipes": [
+			{
+				"type": "spell_part",
+        		"location": "examplemod:shapes/pork_pulse"
+			}
+		]
+	},
+	"Component: Pork Warrior": {
+		"index": 2,
+		"category": "sorcery",
+		"sections": [
+			{
+				"type": "title",
+				"value": "Component: Pork Warrior"
+			},
+			{
+				"type": "text",
+				"value": "This will turn targeted pork chop stacks on the ground into pork based summons.  More pork in the stack, stronger summons."
+			}
+		],
+		"related_recipes": [
+			{
+				"type": "spell_part",
+        		"location": "examplemod:shapes/pork_warrior"
+			}
+		]
+	}	
 }

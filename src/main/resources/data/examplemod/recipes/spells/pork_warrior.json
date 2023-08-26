@@ -1,0 +1,14 @@
+{
+	"type": "mna:shape",
+	"output": "examplemod:pork_warrior",
+	"tier": 1,
+	"items":
+	[
+		"minecraft:porkchop",
+		"minecraft:iron_sword"		
+	],
+	"patterns":
+	[
+		"mna:manaweave_patterns/circle"
+	]
+}

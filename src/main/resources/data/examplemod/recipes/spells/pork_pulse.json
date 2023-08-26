@@ -1,0 +1,14 @@
+{
+	"type": "mna:shape",
+	"output": "examplemod:pork_pulse",
+	"tier": 1,
+	"items":
+	[
+		"minecraft:porkchop",
+		"minecraft:tnt"		
+	],
+	"patterns":
+	[
+		"mna:manaweave_patterns/circle"
+	]
+}
