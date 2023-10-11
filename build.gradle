@@ -110,8 +110,9 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     
     // M&A and its API
-    compileOnly "com.mithion:mna:${mna_version}:api" //api, compilation only
-    runtimeOnly fg.deobf("com.mithion:mna:${mna_version}") //mod itself, deobf for runtime
+    // compileOnly "com.mithion:mna:${mna_version}:api" //api, compilation only
+    // runtimeOnly fg.deobf("com.mithion:mna:${mna_version}") //mod itself, deobf for runtime
+    implementation fg.deobf("com.mithion:mna:${mna_version}") //mod itself, deobf for runtime
     
     // Required dependencies; curios and Geckolib
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${minecraft_version}-${curios_version}")
