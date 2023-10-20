@@ -2,17 +2,18 @@ package com.example.examplemod.factions.castingresources;
 
 import com.example.examplemod.factions.FactionRIDs;
 import com.mna.api.capabilities.resource.SimpleCastingResource;
-import com.mna.config.GeneralModConfig;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.resources.ResourceLocation;
 
 public class ExampleMana extends SimpleCastingResource {
     public ExampleMana() {
-        super(GeneralModConfig.MANA_TICKS_FOR_REGEN.get());
+        //The number should be defined by the config
+        super(2400);
     }
 
     public int getRegenerationRate(LivingEntity caster) {
-        return (int)((float) GeneralModConfig.MANA_TICKS_FOR_REGEN.get() * this.getRegenerationModifier(caster));
+        //The number should be defined by the config
+        return (int)((float) 2400 * this.getRegenerationModifier(caster));
     }
 
     public ResourceLocation getRegistryName() {

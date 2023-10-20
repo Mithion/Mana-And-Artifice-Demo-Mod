@@ -3,11 +3,11 @@ package com.example.examplemod.factions;
 import com.example.examplemod.event.RegistrationEventHandler;
 import com.example.examplemod.factions.castingresources.ExampleMana;
 import com.example.examplemod.factions.castingresources.ExampleManaGui;
+import com.example.examplemod.items.ItemInit;
 import com.mna.api.ManaAndArtificeMod;
 import com.mna.api.faction.BaseFaction;
 import com.mna.api.faction.IFaction;
 import com.mna.api.sound.SFX;
-import com.mna.items.ItemInit;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -42,13 +42,13 @@ public class ExampleFaction extends BaseFaction {
     @Override
     public ItemStack getFactionGrimoire() {
         // It is best to return your own grimoire here, but you can also return one of another faction
-        return new ItemStack(ItemInit.GRIMOIRE_FEY.get());
+        return new ItemStack(ItemInit.GRIMOIRE_EXAMPLE_FACTION.get());
     }
 
     @Override
     public Item getTokenItem() {
         // The token/mark that are dropped by the monster of this faction and is used for trading
-        return ItemInit.MARK_OF_THE_FEY.get();
+        return ItemInit.MARK_OF_EXAMPLE_FACTION.get();
     }
 
     @Override

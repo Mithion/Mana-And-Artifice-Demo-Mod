@@ -1,8 +1,8 @@
 package com.example.examplemod.factions.castingresources;
 
 import com.example.examplemod.factions.FactionRIDs;
+import com.example.examplemod.items.ItemInit;
 import com.mna.api.capabilities.resource.ICastingResourceGuiProvider;
-import com.mna.items.ItemInit;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
@@ -12,7 +12,7 @@ public class ExampleManaGui implements ICastingResourceGuiProvider {
     }
 
     public ItemStack getBadgeItem() {
-        return new ItemStack(ItemInit.BRIMSTONE_CHARM.get());
+        return new ItemStack(ItemInit.EXAMPLE_MANA_GUI_BADGE.get());
     }
 
     public int getXPBarColor() {
