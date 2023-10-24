@@ -3,7 +3,6 @@ package com.example.examplemod.items;
 import com.example.examplemod.ExampleMod;
 import com.mna.api.items.MAItemGroups;
 import com.mna.api.items.TieredItem;
-//import com.mna.items.sorcery.ItemSpellGrimoire;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
