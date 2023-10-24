@@ -41,14 +41,17 @@ public class ExampleFaction extends BaseFaction {
 
     @Override
     public ItemStack getFactionGrimoire() {
-        // It is best to return your own grimoire here, but you can also return one of another faction
-        return new ItemStack(ItemInit.GRIMOIRE_EXAMPLE_FACTION.get());
+        // This item stack is given to the player when they summon the FactionGrimoire.
+        // It is best to return your own grimoire here, but you can also return one of another faction or other items
+
+        //return new ItemStack(ItemInit.GRIMOIRE_EXAMPLE_FACTION.get());
+        return new ItemStack(ItemInit.MARK_OF_THE_EXAMPLE_FACTION.get());
     }
 
     @Override
     public Item getTokenItem() {
         // The token/mark that are dropped by the monster of this faction and is used for trading
-        return ItemInit.MARK_OF_EXAMPLE_FACTION.get();
+        return ItemInit.MARK_OF_THE_EXAMPLE_FACTION.get();
     }
 
     @Override

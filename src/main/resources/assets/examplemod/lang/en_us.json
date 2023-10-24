@@ -1,4 +1,6 @@
 {
+	"item.examplemod.mark_of_the_example_faction": "Mark of the Example Faction",
+
 	"examplemod:pork_warrior": "Pork Warrior",
 	"examplemod:pork_warrior.desc.delay": "A delay in seconds before applying this component.",
 	"examplemod:pork_warrior.desc.duration": "How long the pork warrior will last.",

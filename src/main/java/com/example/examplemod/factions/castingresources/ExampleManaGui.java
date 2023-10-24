@@ -12,7 +12,7 @@ public class ExampleManaGui implements ICastingResourceGuiProvider {
     }
 
     public ItemStack getBadgeItem() {
-        return new ItemStack(ItemInit.EXAMPLE_MANA_GUI_BADGE.get());
+        return new ItemStack(ItemInit.MARK_OF_THE_EXAMPLE_FACTION.get());
     }
 
     public int getXPBarColor() {
