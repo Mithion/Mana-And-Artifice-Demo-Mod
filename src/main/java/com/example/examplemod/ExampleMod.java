@@ -1,19 +1,20 @@
 package com.example.examplemod;
 
+import com.example.examplemod.items.ItemInit;
+import com.example.examplemod.rituals.RitualEffectPorcine;
+import com.mna.api.guidebook.RegisterGuidebooksEvent;
+import com.mna.api.rituals.RitualEffect;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-
-import org.apache.logging.log4j.Level;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.example.examplemod.rituals.RitualEffectPorcine;
-import com.mna.api.guidebook.RegisterGuidebooksEvent;
-import com.mna.api.rituals.RitualEffect;
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(ExampleMod.MODID)
 public class ExampleMod
@@ -25,6 +26,8 @@ public class ExampleMod
 
     public ExampleMod() {    	
         // Register ourselves for server and other game events we are interested in
+        IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        ItemInit.register(eventBus);
         MinecraftForge.EVENT_BUS.register(this);
     }
     

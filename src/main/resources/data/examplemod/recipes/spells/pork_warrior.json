@@ -1,5 +1,5 @@
 {
-	"type": "mna:shape",
+	"type": "mna:component",
 	"output": "examplemod:pork_warrior",
 	"tier": 1,
 	"items":
